@@ -78,7 +78,7 @@ export function Contact() {
                   <Phone className="w-8 h-8 text-blue-600" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-xl mb-2 text-slate-800">Direct Line</h4>
+                  <h4 className="font-bold text-xl mb-2 text-slate-800">Contact Number</h4>
                   <p className="text-slate-600 text-lg">8123041520</p>
                 </div>
               </div>
@@ -126,14 +126,14 @@ export function Contact() {
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-800 font-semibold mb-3">Phone Number *</label>
+                  <label className="block text-slate-800 font-semibold mb-3">Contact Number *</label>
                   <input 
                     type="tel" 
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full px-6 py-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
-                    placeholder="Your Phone Number" 
+                    placeholder="Your Contact Number" 
                     required
                   />
                 </div>
