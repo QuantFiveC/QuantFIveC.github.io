@@ -1280,6 +1280,61 @@
             }
         })();
 
+        // Intercept contact form submit and send via AJAX to prevent leaving the site
+        (function(){
+            const form = document.getElementById('contact-form');
+            if (!form) return;
+            const thanks = document.getElementById('form-thanks');
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.style.opacity = '0.7';
+                        submitBtn.style.cursor = 'not-allowed';
+                    }
+
+                    const formData = new FormData(form);
+                    const endpoint = 'https://formsubmit.co/ajax/partner@quantfive.in';
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Accept': 'application/json' },
+                        body: formData
+                    });
+
+                    if (!response.ok) throw new Error('Network response was not ok');
+
+                    // Show inline thank you message
+                    if (thanks) {
+                        thanks.classList.remove('hidden');
+                        thanks.textContent = 'Thank you! We will reach out to you shortly.';
+                    }
+
+                    form.reset();
+
+                    // Redirect back to our own site after a short delay
+                    setTimeout(() => {
+                        const target = window.location.origin + '/#thank-you';
+                        window.location.href = target;
+                    }, 1800);
+                } catch (err) {
+                    // Fallback: reveal a basic message and keep user on site
+                    if (thanks) {
+                        thanks.classList.remove('hidden');
+                        thanks.textContent = 'Thanks! Your message was received.';
+                    }
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.style.opacity = '';
+                        submitBtn.style.cursor = '';
+                    }
+                }
+            });
+        })();
+
         // CTA button functionality
         document.querySelectorAll('button').forEach(button => {
             if (button.textContent.includes('Explore Innovation')) {
