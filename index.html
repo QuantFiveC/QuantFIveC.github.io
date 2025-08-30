@@ -36,10 +36,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    
+
+    
     <style>
         html { scroll-behavior: smooth; }
         :focus-visible { outline: 3px solid #3b82f6; outline-offset: 2px; }
         .max-readable { max-width: 65ch; }
+        
+        /* Default zoom level - equivalent to cmd+- (zoomed out) */
+        .main-container {
+            transform: scale(0.85);
+            transform-origin: 0 0;
+            width: 117.65%; /* Compensate for scale to prevent horizontal scroll */
+            height: 117.65%;
+        }
+        
+        /* Ensure proper scaling on different devices */
+        @media (max-width: 768px) {
+            .main-container {
+                transform: scale(0.9);
+                width: 111.11%;
+                height: 111.11%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                transform: scale(0.95);
+                width: 105.26%;
+                height: 105.26%;
+            }
+        }
         @media (prefers-reduced-motion: reduce) {
             * { animation: none !important; transition: none !important; }
         }
@@ -62,7 +90,10 @@
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
         }
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+        }
+
         
         .dark-gradient { 
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%);
@@ -199,6 +230,57 @@
         .service-icon:hover {
             transform: scale(1.1) rotate(5deg);
         }
+
+        /* Services Carousel Styles */
+        .services-carousel-container {
+            transition: transform 0.5s ease-in-out;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .services-carousel-slide {
+            transition: all 0.3s ease;
+            min-width: calc(50% - 0.5rem); /* Show 2 slides at once with gap */
+            flex-shrink: 0;
+        }
+
+        .services-carousel-dot {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .services-carousel-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .services-carousel-dot.active {
+            transform: scale(1.3);
+        }
+
+        /* Testimonials Carousel Styles */
+        .testimonials-carousel-container {
+            transition: transform 0.5s ease-in-out;
+            display: flex;
+        }
+
+        .testimonials-carousel-slide {
+            transition: all 0.3s ease;
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+
+        .testimonials-carousel-dot {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .testimonials-carousel-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .testimonials-carousel-dot.active {
+            transform: scale(1.3);
+        }
         
         .team-card-3d {
             perspective: 1000px;
@@ -245,6 +327,23 @@
             background: linear-gradient(135deg, #3b82f6, #10b981);
             position: relative;
             overflow: hidden;
+        }
+        
+        /* Calendar Section Styling */
+        .calendar-container {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+        
+        .cal-embed-container {
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        
+        /* Cal.com embed customization */
+        .cal-embed-container iframe {
+            border-radius: 1rem;
+            border: none;
         }
         
         .cta-button::before {
@@ -304,6 +403,9 @@
 <body class="bg-slate-50 text-slate-800">
     <!-- Scroll Progress Indicator -->
     <div class="scroll-indicator" id="scroll-progress"></div>
+    
+    <!-- Main Container for scaling -->
+    <div class="main-container">
 
     <!-- Navigation -->
     <nav class="fixed w-full top-0 z-50 transition-all duration-300 glass-morphism" id="navbar" role="navigation" aria-label="Primary">
@@ -332,10 +434,9 @@
                         Services
                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
                     </a>
-                    <a href="#team" class="text-slate-600 hover:text-blue-600 font-medium transition-colors relative group">
-                        Team
-                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
-                    </a>
+
+
+
                     
                     <a href="#contact" class="cta-button text-white px-6 py-3 rounded-full font-semibold transition-all hover:shadow-lg">
                         Contact Us
@@ -356,7 +457,8 @@
                 <a href="#home" class="block text-slate-600 hover:text-blue-600 font-medium">Home</a>
                 <a href="#about" class="block text-slate-600 hover:text-blue-600 font-medium">About</a>
                 <a href="#services" class="block text-slate-600 hover:text-blue-600 font-medium">Services</a>
-                <a href="#team" class="block text-slate-600 hover:text-blue-600 font-medium">Team</a>
+
+
                 <a href="#contact" class="block cta-button text-white px-6 py-3 rounded-full font-semibold text-center">Contact Us</a>
             </div>
          </div>
@@ -364,6 +466,9 @@
     <main id="main" tabindex="-1">
 
     <a href="#main" class="skip-link">Skip to content</a>
+    
+
+
     <!-- Hero Section -->
     <section id="home" class="dark-gradient min-h-screen flex items-center relative overflow-hidden geometric-bg">
         <!-- Floating Elements -->
@@ -371,115 +476,111 @@
         <div class="absolute top-40 right-20 w-24 h-24 border border-green-500 border-opacity-30 rounded-lg floating-card" style="animation-delay: -2s;"></div>
         <div class="absolute bottom-40 left-20 hexagon opacity-20 floating-card" style="animation-delay: -4s;"></div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <div class="inline-flex items-center bg-slate-800 border border-blue-500 border-opacity-30 px-6 py-3 rounded-full text-sm font-medium mb-8 neon-glow text-white">
-                        <span class="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></span>
-                        Revolutionising Hospitals
-                    </div>
-                    
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-8 leading-tight">
-                        <span class="block">Revolutionising</span>
-                        <span class="text-gradient typing-animation">Hospitals.</span>
-                    </h1>
-                    
-                    <p class="text-base sm:text-lg lg:text-xl mb-12 text-slate-700 leading-relaxed max-w-2xl max-readable">
-                        Revolutionising Hospitals : strategy, systems, and execution that modernise operations end-to-end.
-                        <span class="text-blue-600 font-semibold">Smarter workflows. Stronger outcomes.</span>
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-6 mb-16">
-                        <button class="cta-button px-10 py-5 rounded-full font-bold text-lg transition-all hover:shadow-2xl group">
-                            <span class="flex items-center justify-center">
-                                Explore Innovation
-                                <svg class="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                </svg>
-                            </span>
-                        </button>
-                        <button class="border-gradient">
-                            <div class="px-10 py-5 rounded-full font-bold text-lg text-white hover:bg-slate-700 transition-all">
-                                Schedule Demo
-                            </div>
-                        </button>
-                    </div>
-                    
-                    <!-- Advanced Stats -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                        <div class="text-center">
-                            <div class="relative w-20 h-20 mx-auto mb-4">
-                                <svg class="progress-ring w-20 h-20">
-                                    <circle cx="40" cy="40" r="36" stroke="#cbd5e1" stroke-width="4" fill="transparent"/>
-                                    <circle cx="40" cy="40" r="36" stroke="#3b82f6" stroke-width="4" fill="transparent" class="animate-progress"/>
-                                </svg>
-                                <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-blue-600">6</div>
-                            </div>
-                            <div class="text-slate-500 font-medium">Projects Delivered</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="relative w-20 h-20 mx-auto mb-4">
-                                <svg class="progress-ring w-20 h-20">
-                                    <circle cx="40" cy="40" r="36" stroke="#cbd5e1" stroke-width="4" fill="transparent"/>
-                                    <circle cx="40" cy="40" r="36" stroke="#10b981" stroke-width="4" fill="transparent" class="animate-progress"/>
-                                </svg>
-                                <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-green-600">16+</div>
-                            </div>
-                            <div class="text-slate-500 font-medium">Cities Covered</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="relative w-20 h-20 mx-auto mb-4">
-                                <svg class="progress-ring w-20 h-20">
-                                    <circle cx="40" cy="40" r="36" stroke="#cbd5e1" stroke-width="4" fill="transparent"/>
-                                    <circle cx="40" cy="40" r="36" stroke="#8b5cf6" stroke-width="4" fill="transparent" class="animate-progress"/>
-                                </svg>
-                                <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-purple-600">20+</div>
-                            </div>
-                            <div class="text-slate-500 font-medium">Projects Onboard</div>
-                        </div>
-                    </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Hero Content - Centered -->
+            <div class="text-center mb-20">
+                <div class="inline-flex items-center bg-slate-800 border border-blue-500 border-opacity-30 px-6 py-3 rounded-full text-sm font-medium mb-8 neon-glow text-white">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></span>
+                    Revolutionising Hospitals
                 </div>
                 
-                <div class="relative">
-                    <div class="glass-morphism p-10 rounded-3xl neon-glow">
-                        <h3 class="text-2xl font-bold mb-8 text-gradient">Core Capabilities</h3>
-                        <div class="space-y-8">
-                            <div class="flex items-center space-x-6">
-                                <div class="service-icon w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
-                                    <span class="text-2xl">🏥</span>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-lg text-slate-800">Hospital Excellence</div>
-                                    <div class="text-slate-600">End-to-end  solutions</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-6">
-                                <div class="service-icon w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
-                                    <span class="text-2xl">🧬</span>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-lg text-slate-800">IVF Innovation</div>
-                                    <div class="text-slate-600">Advanced fertility solutions</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-6">
-                                <div class="service-icon w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl flex items-center justify-center">
-                                    <span class="text-2xl">📊</span>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-lg text-slate-800">Growth Strategy</div>
-                                    <div class="text-slate-600">Data-driven expansion</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-6">
-                                <div class="service-icon w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center">
-                                    <span class="text-2xl">🚀</span>
-                                </div>
-                                <div>
-                                    <div class="font-bold text-lg text-slate-800">Digital Transformation</div>
-                                    <div class="text-slate-600">Technology-powered solutions</div>
-                                </div>
-                            </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-8 leading-tight">
+                    <span class="block">Revolutionising</span>
+                    <span class="text-gradient typing-animation">Hospitals.</span>
+                </h1>
+                
+                <p class="text-base sm:text-lg lg:text-xl mb-12 text-slate-700 leading-relaxed max-w-4xl mx-auto max-readable">
+                    Revolutionising Hospitals : strategy, systems, and execution that modernise operations end-to-end.
+                    <span class="text-blue-600 font-semibold">Smarter workflows. Stronger outcomes.</span>
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-6 mb-16 justify-center">
+                    <button class="cta-button px-10 py-5 rounded-full font-bold text-lg transition-all hover:shadow-2xl group">
+                        <span class="flex items-center justify-center">
+                            Explore Innovation
+                            <svg class="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </span>
+                    </button>
+                    <button class="border-gradient">
+                        <div class="px-10 py-5 rounded-full font-bold text-lg text-white hover:bg-slate-700 transition-all">
+                            Book Consultation
+                        </div>
+                    </button>
+                </div>
+                
+                <!-- Advanced Stats -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="relative w-20 h-20 mx-auto mb-4">
+                            <svg class="progress-ring w-20 h-20">
+                                <circle cx="40" cy="40" r="36" stroke="#cbd5e1" stroke-width="4" fill="transparent"/>
+                                <circle cx="40" cy="40" r="36" stroke="#3b82f6" stroke-width="4" fill="transparent" class="animate-progress"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-blue-600">4</div>
+                        </div>
+                        <div class="text-slate-500 font-medium">Projects Delivered</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="relative w-20 h-20 mx-auto mb-4">
+                            <svg class="progress-ring w-20 h-20">
+                                <circle cx="40" cy="40" r="36" stroke="#cbd5e1" stroke-width="4" fill="transparent"/>
+                                <circle cx="40" cy="40" r="36" stroke="#10b981" stroke-width="4" fill="transparent" class="animate-progress"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-green-600">7+</div>
+                        </div>
+                        <div class="text-slate-500 font-medium">Cities Covered</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="relative w-20 h-20 mx-auto mb-4">
+                            <svg class="progress-ring w-20 h-20">
+                                <circle cx="40" cy="40" r="36" stroke="#cbd5e1" stroke-width="4" fill="transparent"/>
+                                <circle cx="40" cy="40" r="36" stroke="#8b5cf6" stroke-width="4" fill="transparent" class="animate-progress"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-purple-600">6+</div>
+                        </div>
+                        <div class="text-slate-500 font-medium">Projects Onboard</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendar Section - Below Hero Content -->
+            <div class="w-full px-4">
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden max-w-6xl mx-auto">
+                    <!-- Calendar Header -->
+                    <div class="text-center p-8 bg-gradient-to-r from-blue-50 to-purple-50">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-xl font-bold">
+                            📅
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-800">Schedule Your Free Consultation</h3>
+                        <p class="text-gray-600 text-sm">Choose a time that works best for you</p>
+                    </div>
+                    
+                    <!-- Calendar Integration -->
+                    <div class="p-6 bg-white">
+                        <div class="text-center mb-4">
+                            <p class="text-gray-600 text-sm mb-1">Calendar powered by Cal.com</p>
+                            <p class="text-xs text-gray-500">Select your preferred date and time below</p>
+                        </div>
+                        
+                        <!-- Wide Cal.com Calendar Embed -->
+                        <div class="cal-embed-container bg-gray-50 rounded-xl p-4" style="min-height: 500px;">
+                            <!-- Cal inline embed code begins -->
+                            <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-quickchat"></div>
+                            <script type="text/javascript">
+                              (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+                            Cal("init", "quickchat", {origin:"https://app.cal.com"});
+
+                              Cal.ns.quickchat("inline", {
+                                elementOrSelector:"#my-cal-inline-quickchat",
+                                config: {"layout":"month_view"},
+                                calLink: "quant-five/quickchat",
+                              });
+
+                              Cal.ns.quickchat("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+                              </script>
+                              <!-- Cal inline embed code ends -->
                         </div>
                     </div>
                 </div>
@@ -503,96 +604,45 @@
                 </p>
             </div>
             
-            <div class="grid lg:grid-cols-2 gap-20 items-center">
-                <div>
-                    <div class="space-y-8">
-                        <div class="glass-morphism p-8 rounded-2xl card-hover">
-                            <div class="flex items-start space-x-6">
-                                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <span class="text-white text-xl">🎯</span>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-bold mb-3">Strategic Vision</h3>
-                                    <p class="text-slate-700 leading-relaxed">
-                                        We don't just execute plans – we craft comprehensive strategies that position your healthcare venture for long-term success and market leadership.
-                                    </p>
-                                </div>
-                            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-morphism p-8 rounded-2xl card-hover">
+                    <div class="flex items-start space-x-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-xl">🎯</span>
                         </div>
-                        
-                        <div class="glass-morphism p-8 rounded-2xl card-hover">
-                            <div class="flex items-start space-x-6">
-                                <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <span class="text-white text-xl">⚡</span>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-bold mb-3">Rapid Implementation</h3>
-                                    <p class="text-slate-700 leading-relaxed">
-                                        Our proven methodologies and extensive network enable faster project delivery without compromising on quality or compliance standards.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="glass-morphism p-8 rounded-2xl card-hover">
-                            <div class="flex items-start space-x-6">
-                                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <span class="text-white text-xl">🔬</span>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-bold mb-3">Innovation Focus</h3>
-                                    <p class="text-slate-700 leading-relaxed">
-                                        We integrate cutting-edge technologies and best practices to ensure your healthcare facility operates at the forefront of medical excellence.
-                                    </p>
-                                </div>
-                            </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-3">Strategic Vision</h3>
+                            <p class="text-slate-700 leading-relaxed">
+                                We don't just execute plans – we craft comprehensive strategies that position your healthcare venture for long-term success and market leadership.
+                            </p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="relative">
-                    <div class="glass-morphism p-10 rounded-3xl neon-glow">
-                        <h3 class="text-3xl font-bold mb-8 text-gradient">Our Impact</h3>
-                        <div class="space-y-8">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <div class="text-sm text-slate-600 mb-1">Healthcare Ventures Launched</div>
-                                    <div class="text-3xl font-bold text-blue-400">50+</div>
-                                </div>
-                                <div class="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div class="w-4/5 h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <div class="text-sm text-slate-600 mb-1">Cities Across India</div>
-                                    <div class="text-3xl font-bold text-green-400">15+</div>
-                                </div>
-                                <div class="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div class="w-3/5 h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <div class="text-sm text-slate-600 mb-1">Client Satisfaction</div>
-                                    <div class="text-3xl font-bold text-purple-400">98%</div>
-                                </div>
-                                <div class="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div class="w-full h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <div class="text-sm text-slate-600 mb-1">Average ROI Improvement</div>
-                                    <div class="text-3xl font-bold text-orange-400">240%</div>
-                                </div>
-                                <div class="w-32 h-2 bg-slate-700 rounded-full overflow-hidden">
-                                    <div class="w-5/6 h-full bg-gradient-to-r from-orange-500 to-orange-400 rounded-full"></div>
-                                </div>
-                            </div>
+                <div class="glass-morphism p-8 rounded-2xl card-hover">
+                    <div class="flex items-start space-x-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-xl">⚡</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-3">Rapid Implementation</h3>
+                            <p class="text-slate-700 leading-relaxed">
+                                Our proven methodologies and extensive network enable faster project delivery without compromising on quality or compliance standards.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-morphism p-8 rounded-2xl card-hover">
+                    <div class="flex items-start space-x-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-xl">🔬</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-3">Innovation Focus</h3>
+                            <p class="text-slate-700 leading-relaxed">
+                                We integrate cutting-edge technologies and best practices to ensure your healthcare facility operates at the forefront of medical excellence.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -613,7 +663,8 @@
                 </h2>
             </div>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Desktop Grid Layout -->
+            <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Service 1 -->
                 <div class="glass-morphism p-8 rounded-3xl card-hover neon-glow">
                     <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mb-8 service-icon">
@@ -638,7 +689,7 @@
                             Financial Optimization Models
                         </li>
                     </ul>
-                    <button class="w-full border-gradient">
+                    <button class="w-full border-gradient explore-details-btn" data-service="Hospitals">
                         <div class="py-4 rounded-xl font-semibold text-blue-400 hover:bg-slate-700 transition-all">
                             Explore Details
                         </div>
@@ -669,7 +720,7 @@
                             Regulatory Compliance 
                         </li>
                     </ul>
-                    <button class="w-full border-gradient">
+                    <button class="w-full border-gradient explore-details-btn" data-service="IVF Clinic Excellence">
                         <div class="py-4 rounded-xl font-semibold text-purple-400 hover:bg-slate-700 transition-all">
                             Explore Details
                         </div>
@@ -700,7 +751,7 @@
                             Resource Optimization
                         </li>
                     </ul>
-                    <button class="w-full border-gradient">
+                    <button class="w-full border-gradient explore-details-btn" data-service="Operations & Admin">
                         <div class="py-4 rounded-xl font-semibold text-green-400 hover:bg-slate-700 transition-all">
                             Explore Details
                         </div>
@@ -731,7 +782,7 @@
                             Partnership Strategy
                         </li>
                     </ul>
-                    <button class="w-full border-gradient">
+                    <button class="w-full border-gradient explore-details-btn" data-service="Growth Strategy">
                         <div class="py-4 rounded-xl font-semibold text-orange-400 hover:bg-slate-700 transition-all">
                             Explore Details
                         </div>
@@ -762,270 +813,251 @@
                             Technology Integration
                         </li>
                     </ul>
-                    <button class="w-full border-gradient">
+                    <button class="w-full border-gradient explore-details-btn" data-service="Digital Transformation">
                         <div class="py-4 rounded-xl font-semibold text-indigo-400 hover:bg-slate-700 transition-all">
                             Explore Details
                         </div>
                     </button>
                 </div>
             </div>
+
+            <!-- Mobile Carousel Layout -->
+            <div class="md:hidden">
+                <div class="services-carousel relative">
+                    <div class="services-carousel-container flex">
+                        <!-- Service 1 -->
+                        <div class="services-carousel-slide flex-shrink-0 px-4">
+                            <div class="glass-morphism p-8 rounded-3xl card-hover neon-glow">
+                                <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mb-8 service-icon mx-auto">
+                                    <span class="text-white text-3xl">🏥</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-6 text-center">Hospitals</h3>
+                                <ul class="text-slate-700 space-y-4 mb-8">
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-3 mt-1">▶</span>
+                                        Strategic Planning & Feasibility Analysis
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-3 mt-1">▶</span>
+                                        Infrastructure Design & Setup
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-3 mt-1">▶</span>
+                                        Operational Excellence Programs
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-3 mt-1">▶</span>
+                                        Financial Optimization Models
+                                    </li>
+                                </ul>
+                                <button class="w-full border-gradient explore-details-btn" data-service="Hospitals">
+                                    <div class="py-4 rounded-xl font-semibold text-blue-400 hover:bg-slate-700 transition-all">
+                                        Explore Details
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service 2 -->
+                        <div class="services-carousel-slide flex-shrink-0 px-4">
+                            <div class="glass-morphism p-8 rounded-3xl card-hover neon-glow">
+                                <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl flex items-center justify-center mb-8 service-icon mx-auto">
+                                    <span class="text-white text-3xl">🧬</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-6 text-center">IVF Clinic Excellence</h3>
+                                <ul class="text-slate-700 space-y-4 mb-8">
+                                    <li class="flex items-start">
+                                        <span class="text-purple-400 mr-3 mt-1">▶</span>
+                                        Advanced Lab & OT Configuration
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-purple-400 mr-3 mt-1">▶</span>
+                                        Embryology Support Systems
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-purple-400 mr-3 mt-1">▶</span>
+                                        Success Rate Optimization
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-purple-400 mr-3 mt-1">▶</span>
+                                        Regulatory Compliance 
+                                    </li>
+                                </ul>
+                                <button class="w-full border-gradient explore-details-btn" data-service="IVF Clinic Excellence">
+                                    <div class="py-4 rounded-xl font-semibold text-purple-400 hover:bg-slate-700 transition-all">
+                                        Explore Details
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service 3 -->
+                        <div class="services-carousel-slide flex-shrink-0 px-4">
+                            <div class="glass-morphism p-8 rounded-3xl card-hover neon-glow">
+                                <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-teal-500 rounded-3xl flex items-center justify-center mb-8 service-icon mx-auto">
+                                    <span class="text-white text-3xl">⚙️</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-6 text-center">Operations & Admin</h3>
+                                <ul class="text-slate-700 space-y-4 mb-8">
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-3 mt-1">▶</span>
+                                        Licensing & Regulatory Support
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-3 mt-1">▶</span>
+                                        Process Automation Systems
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-3 mt-1">▶</span>
+                                        Quality  Programs
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-3 mt-1">▶</span>
+                                        Resource Optimization
+                                    </li>
+                                </ul>
+                                <button class="w-full border-gradient explore-details-btn" data-service="Operations & Admin">
+                                    <div class="py-4 rounded-xl font-semibold text-green-400 hover:bg-slate-700 transition-all">
+                                        Explore Details
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service 4 -->
+                        <div class="services-carousel-slide flex-shrink-0 px-4">
+                            <div class="glass-morphism p-8 rounded-3xl card-hover neon-glow">
+                                <div class="w-20 h-20 bg-gradient-to-r from-orange-500 to-red-500 rounded-3xl flex items-center justify-center mb-8 service-icon mx-auto">
+                                    <span class="text-white text-3xl">📈</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-6 text-center">Growth Strategy</h3>
+                                <ul class="text-slate-700 space-y-4 mb-8">
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-3 mt-1">▶</span>
+                                        Market Expansion Planning
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-3 mt-1">▶</span>
+                                        Referral Network Development
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-3 mt-1">▶</span>
+                                        Revenue Optimization Models
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-blue-400 mr-3 mt-1">▶</span>
+                                        Partnership Strategy
+                                    </li>
+                                </ul>
+                                <button class="w-full border-gradient explore-details-btn" data-service="Growth Strategy">
+                                    <div class="py-4 rounded-xl font-semibold text-orange-400 hover:bg-slate-700 transition-all">
+                                        Explore Details
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Service 5 -->
+                        <div class="services-carousel-slide flex-shrink-0 px-4">
+                            <div class="glass-morphism p-8 rounded-3xl card-hover neon-glow">
+                                <div class="w-20 h-20 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-3xl flex items-center justify-center mb-8 service-icon mx-auto">
+                                    <span class="text-white text-3xl">🚀</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-6 text-center">Digital Transformation</h3>
+                                <ul class="text-slate-700 space-y-4 mb-8">
+                                    <li class="flex items-start">
+                                        <span class="text-indigo-400 mr-3 mt-1">▶</span>
+                                        Advanced Analytics Implementation
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-indigo-400 mr-3 mt-1">▶</span>
+                                        Digital Marketing Ecosystems
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-indigo-400 mr-3 mt-1">▶</span>
+                                        Patient Experience Platforms
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-indigo-400 mr-3 mt-1">▶</span>
+                                        Technology Integration
+                                    </li>
+                                </ul>
+                                <button class="w-full border-gradient explore-details-btn" data-service="Digital Transformation">
+                                    <div class="py-4 rounded-xl font-semibold text-indigo-400 hover:bg-slate-700 transition-all">
+                                        Explore Details
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carousel Navigation -->
+                    <div class="flex justify-center mt-8 space-x-2">
+                        <button class="services-carousel-prev w-12 h-12 bg-white bg-opacity-80 rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-100 transition-all">
+                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="services-carousel-dots flex space-x-2">
+                            <button class="w-3 h-3 bg-blue-500 rounded-full services-carousel-dot active" data-slide="0"></button>
+                            <button class="w-3 h-3 bg-slate-300 rounded-full services-carousel-dot" data-slide="1"></button>
+                            <button class="w-3 h-3 bg-slate-300 rounded-full services-carousel-dot" data-slide="2"></button>
+                            <button class="w-3 h-3 bg-slate-300 rounded-full services-carousel-dot" data-slide="3"></button>
+                            <button class="w-3 h-3 bg-slate-300 rounded-full services-carousel-dot" data-slide="4"></button>
+                        </div>
+                        <button class="services-carousel-next w-12 h-12 bg-white bg-opacity-80 rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-100 transition-all">
+                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Team Section -->
-    <section id="team" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <div class="inline-block bg-purple-500 bg-opacity-20 border border-purple-500 border-opacity-30 px-6 py-3 rounded-full text-sm font-semibold mb-6">
-                    Leadership Team
-                </div>
-                <h2 class="text-5xl lg:text-6xl font-black mb-8">
-                    Visionary Leaders.<br>
-                    <span class="text-gradient">Proven Results.</span>
-                </h2>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Team Member 1 -->
-                <div class="team-card-3d h-96">
-                    <div class="team-card-inner relative h-full">
-                        <div class="team-card-front glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-2xl font-bold">
-                                    SI
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">S. Shaghaf Imam</h3>
-                                <p class="text-blue-400 font-semibold mb-4">Founder & Principal</p>
-                                <div class="flex flex-wrap justify-center gap-2">
-                                    <span class="bg-blue-500 bg-opacity-20 text-blue-400 px-3 py-1 rounded-full text-xs">Strategy</span>
-                                    <span class="bg-purple-500 bg-opacity-20 text-purple-400 px-3 py-1 rounded-full text-xs">Leadership</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-card-back glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <h4 class="text-lg font-bold mb-4 text-blue-400">Expertise</h4>
-                                <ul class="text-sm text-slate-700 space-y-2 mb-6">
-                                    <li>• Hospital Scaling Strategy</li>
-                                    <li>• IVF Operations Excellence</li>
-                                    <li>• Business Development</li>
-                                    <li>• Market Expansion</li>
-                                </ul>
-                                <blockquote class="text-blue-400 italic text-sm">
-                                    "Innovation drives execution, execution drives results."
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Team Member 2 -->
-                <div class="team-card-3d h-96">
-                    <div class="team-card-inner relative h-full">
-                        <div class="team-card-front glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <div class="w-24 h-24 bg-gradient-to-r from-green-500 to-teal-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-2xl font-bold">
-                                    MP
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">Mukund Pandey</h3>
-                                <p class="text-green-400 font-semibold mb-4">Head - Finance & Admin</p>
-                                <div class="flex flex-wrap justify-center gap-2">
-                                    <span class="bg-green-500 bg-opacity-20 text-green-400 px-3 py-1 rounded-full text-xs">Finance</span>
-                                    <span class="bg-teal-500 bg-opacity-20 text-teal-400 px-3 py-1 rounded-full text-xs">Compliance</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-card-back glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <h4 class="text-lg font-bold mb-4 text-green-400">Expertise</h4>
-                                <ul class="text-sm text-slate-700 space-y-2 mb-6">
-                                    <li>• Financial Planning</li>
-                                    <li>• Regulatory Compliance</li>
-                                    <li>• Risk </li>
-                                    <li>• Process Optimization</li>
-                                </ul>
-                                <blockquote class="text-green-400 italic text-sm">
-                                    "Solid foundations enable limitless growth."
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Team Member 3 -->
-                <div class="team-card-3d h-96">
-                    <div class="team-card-inner relative h-full">
-                        <div class="team-card-front glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <div class="w-24 h-24 bg-gradient-to-r from-orange-500 to-red-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-2xl font-bold">
-                                    VK
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">Vikash Kumar</h3>
-                                <p class="text-orange-400 font-semibold mb-4">Head - Operations</p>
-                                <div class="flex flex-wrap justify-center gap-2">
-                                    <span class="bg-orange-500 bg-opacity-20 text-orange-400 px-3 py-1 rounded-full text-xs">Operations</span>
-                                    <span class="bg-red-500 bg-opacity-20 text-red-400 px-3 py-1 rounded-full text-xs">Execution</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-card-back glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <h4 class="text-lg font-bold mb-4 text-orange-400">Expertise</h4>
-                                <ul class="text-sm text-slate-700 space-y-2 mb-6">
-                                    <li>• Center Launch </li>
-                                    <li>• Workflow Optimization</li>
-                                    <li>• Team Development</li>
-                                    <li>• Quality Assurance</li>
-                                </ul>
-                                <blockquote class="text-orange-400 italic text-sm">
-                                    "Excellence in execution defines success."
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Team Member 4 -->
-                <div class="team-card-3d h-96">
-                    <div class="team-card-inner relative h-full">
-                        <div class="team-card-front glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-2xl font-bold">
-                                    SLR
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">Syed Lavi Reza</h3>
-                                <p class="text-purple-400 font-semibold mb-4">Head - Marketing</p>
-                                <div class="flex flex-wrap justify-center gap-2">
-                                    <span class="bg-purple-500 bg-opacity-20 text-purple-400 px-3 py-1 rounded-full text-xs">Marketing</span>
-                                    <span class="bg-pink-500 bg-opacity-20 text-pink-400 px-3 py-1 rounded-full text-xs">Growth</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-card-back glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <h4 class="text-lg font-bold mb-4 text-purple-400">Expertise</h4>
-                                <ul class="text-sm text-slate-700 space-y-2 mb-6">
-                                    <li>• B2B Growth Strategy</li>
-                                    <li>• Referral Networks</li>
-                                    <li>• Brand Development</li>
-                                    <li>• Market Penetration</li>
-                                </ul>
-                                <blockquote class="text-purple-400 italic text-sm">
-                                    "Strategic marketing amplifies impact."
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Team Member 5 -->
-                <div class="team-card-3d h-96 md:col-span-2 lg:col-span-1">
-                    <div class="team-card-inner relative h-full">
-                        <div class="team-card-front glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <div class="w-24 h-24 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-2xl font-bold">
-                                    DP
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">Deepak Prajapat</h3>
-                                <p class="text-indigo-400 font-semibold mb-4">Head - Digital & Analytics</p>
-                                <div class="flex flex-wrap justify-center gap-2">
-                                    <span class="bg-indigo-500 bg-opacity-20 text-indigo-400 px-3 py-1 rounded-full text-xs">Digital</span>
-                                    <span class="bg-blue-500 bg-opacity-20 text-blue-400 px-3 py-1 rounded-full text-xs">Analytics</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-card-back glass-morphism p-8 rounded-3xl neon-glow h-full flex flex-col justify-center">
-                            <div class="text-center">
-                                <h4 class="text-lg font-bold mb-4 text-indigo-400">Expertise</h4>
-                                <ul class="text-sm text-gray-400 space-y-2 mb-6">
-                                    <li>• Digital Transformation</li>
-                                    <li>• Data Analytics</li>
-                                    <li>• Performance Monitoring</li>
-                                    <li>• Technology Integration</li>
-                                </ul>
-                                <blockquote class="text-indigo-400 italic text-sm">
-                                    "Data-driven decisions create lasting value."
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Testimonials Section -->
     <section class="py-24 bg-slate-50 geometric-bg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
-                <div class="inline-block bg-yellow-500 bg-opacity-20 border border-yellow-500 border-opacity-30 px-6 py-3 rounded-full text-sm font-semibold mb-6">
-                    Client Success Stories
-                </div>
                 <h2 class="text-5xl lg:text-6xl font-black mb-8">
                     Transforming Healthcare<br>
                     <span class="text-gradient">Together</span>
                 </h2>
             </div>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card p-8 rounded-3xl card-hover">
-                    <div class="flex items-center mb-6">
-                        <div class="text-yellow-400 text-2xl">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <p class="text-gray-300 mb-8 italic leading-relaxed text-lg">
-                        "Quant Five revolutionized our IVF operations. Their systematic approach increased our success rates by 40% and streamlined every process."
-                    </p>
-                    <div class="flex items-center">
-                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                            DR
+            <!-- Single Giant Card -->
+            <div class="max-w-4xl mx-auto">
+                <div class="glass-morphism p-12 rounded-3xl card-hover neon-glow">
+                    <div class="text-center mb-8">
+                        <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold">
+                            💬
                         </div>
-                        <div>
-                            <h4 class="font-bold text-white text-lg">Dr. Rajesh Kumar</h4>
-                            <p class="text-gray-400">Fertility Specialist, Mumbai</p>
-                        </div>
+                        <h3 class="text-3xl font-bold mb-4 text-gradient">A Message from Our Founder</h3>
                     </div>
-                </div>
-
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card p-8 rounded-3xl card-hover">
-                    <div class="flex items-center mb-6">
-                        <div class="text-yellow-400 text-2xl">⭐⭐⭐⭐⭐</div>
+                    
+                    <div class="text-slate-700 leading-relaxed text-lg space-y-6">
+                        <blockquote class="text-justify italic text-xl">
+                            "Throughout my career in healthcare management—overseeing operations, formulating growth strategies, and expanding business for leading brands—I observed a recurring challenge. While doctors excel in delivering clinical outcomes, the non-clinical aspects of running a healthcare facility, particularly IVF centers, often remain under-optimized.
+                            
+                            I founded Quant Five Consultancies to address this need. My purpose is to ensure that doctors can dedicate themselves to clinical excellence, while we take charge of operations, administration, marketing, and business scalability. Through structured and proven management practices, Quant Five is committed to transforming healthcare facilities into sustainable, growth-driven organizations."
+                        </blockquote>
                     </div>
-                    <p class="text-gray-300 mb-8 italic leading-relaxed text-lg">
-                        "Their expertise saved us months of planning. The ROI-focused approach delivered measurable results from day one of operations."
-                    </p>
-                    <div class="flex items-center">
-                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                            AS
+                    
+                    <div class="text-center mt-10">
+                        <div class="text-slate-600 text-lg font-semibold">
+                            — S Shaghaf Imam
                         </div>
-                        <div>
-                            <h4 class="font-bold text-white text-lg">Anita Sharma</h4>
-                            <p class="text-gray-400">Hospital Administrator, Delhi</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card p-8 rounded-3xl card-hover">
-                    <div class="flex items-center mb-6">
-                        <div class="text-yellow-400 text-2xl">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <p class="text-gray-300 mb-8 italic leading-relaxed text-lg">
-                        "Professional, innovative, and results-driven. Their B2B strategies helped us expand to 3 new cities within 12 months."
-                    </p>
-                    <div class="flex items-center">
-                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                            MG
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-white text-lg">Dr. Manoj Gupta</h4>
-                            <p class="text-gray-400">Multi-specialty Chain, Bangalore</p>
+                        <div class="text-slate-500 text-sm mt-2">
+                            Founder, Quant Five Consultancies
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+
     </section>
 
     <!-- Contact Section -->
@@ -1092,26 +1124,26 @@
                 
                 <!-- Contact Form -->
                 <div>
-                    <form id="contact-form" action="https://formsubmit.co/partner@quantfive.in" method="POST" class="glass-morphism p-10 rounded-3xl neon-glow">
-                        <div id="form-thanks" class="hidden mb-6 p-4 rounded-xl bg-green-50 text-green-700 border border-green-200 text-sm sm:text-base">
+                    <form id="contact-form-secondary" action="https://formsubmit.co/partner@quantfive.in" method="POST" class="glass-morphism p-10 rounded-3xl neon-glow">
+                        <div id="form-thanks-secondary" class="hidden mb-6 p-4 rounded-xl bg-green-50 text-green-700 border border-green-200 text-sm sm:text-base">
                             Thanks! Your message has been sent. Our team will get back to you within 24 hours.
                         </div>
-                        <h3 class="text-3xl font-bold mb-8 text-gradient">Start Your Journey</h3>
+                        <h3 class="text-3xl font-bold mb-8 text-gradient">Book Free Due Diligence</h3>
                         
                         <div class="grid md:grid-cols-2 gap-6 mb-6">
                             <div>
                                 <label class="block text-slate-800 font-semibold mb-3">Full Name *</label>
-                                <input type="text" id="name" name="name" class="w-full px-6 py-4 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Your Full Name" required>
+                                <input type="text" id="name-secondary" name="name" class="w-full px-6 py-4 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Your Full Name" required>
                             </div>
                             <div>
                                 <label class="block text-slate-800 font-semibold mb-3">Contact Number *</label>
-                                <input type="tel" id="phone" name="phone" class="w-full px-6 py-4 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Your Contact Number" required>
+                                <input type="tel" id="phone-secondary" name="phone" class="w-full px-6 py-4 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Your Contact Number" required>
                             </div>
                         </div>
                         
                         <div class="mb-6">
                             <label class="block text-slate-800 font-semibold mb-3">Email Address *</label>
-                            <input type="email" id="email" name="email" class="w-full px-6 py-4 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Your Email Address" required>
+                            <input type="email" id="email-secondary" name="email" class="w-full px-6 py-4 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" placeholder="Your Email Address" required>
                         </div>
                         
                         <div class="mb-6">
@@ -1128,7 +1160,7 @@
                         
                         <div class="mb-8">
                             <label class="block text-slate-800 font-semibold mb-3">Project Details</label>
-                            <textarea id="message" name="message" rows="5" class="w-full px-6 py-4 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none" placeholder="Tell us about your vision and requirements..." required></textarea>
+                            <textarea id="message-secondary" name="message" rows="5" class="w-full px-6 py-4 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none" placeholder="Tell us about your vision and requirements..." required></textarea>
                             <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off">
                             <input type="hidden" name="_captcha" value="false">
                             <input type="hidden" name="_subject" value="New website inquiry from Quant Five">
@@ -1145,12 +1177,13 @@
             </div>
         </div>
     </section>
+
     </main>
 
     <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-700 py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
                 <!-- Company Info -->
                 <div class="lg:col-span-2">
                     <div class="flex items-center space-x-4 mb-8">
@@ -1184,17 +1217,7 @@
                     </div>
                 </div>
                 
-                <!-- Services -->
-                <div>
-                    <h3 class="text-xl font-bold mb-8 text-gradient">Our Solutions</h3>
-                    <ul class="space-y-4 text-gray-400">
-                        <li><a href="#" class="hover:text-blue-400 transition-colors text-lg">Hospitals</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors text-lg">IVF Excellence</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors text-lg">Operations & Admin</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors text-lg">Growth Strategy</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors text-lg">Digital Transformation</a></li>
-                    </ul>
-                </div>
+
                 
                 <!-- Quick Links -->
                 <div>
@@ -1202,9 +1225,9 @@
                     <ul class="space-y-4 text-gray-400">
                         <li><a href="#about" class="hover:text-blue-400 transition-colors text-lg">About Us</a></li>
                         <li><a href="#services" class="hover:text-blue-400 transition-colors text-lg">Our Services</a></li>
-                        <li><a href="#team" class="hover:text-blue-400 transition-colors text-lg">Leadership</a></li>
+
                         <li><a href="#contact" class="hover:text-blue-400 transition-colors text-lg">Contact</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors text-lg">Case Studies</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -1280,11 +1303,13 @@
             }
         })();
 
-        // Intercept contact form submit and send via AJAX to prevent leaving the site
+
+
+        // Intercept secondary contact form submit and send via AJAX to prevent leaving the site
         (function(){
-            const form = document.getElementById('contact-form');
+            const form = document.getElementById('contact-form-secondary');
             if (!form) return;
-            const thanks = document.getElementById('form-thanks');
+            const thanks = document.getElementById('form-thanks-secondary');
             const submitBtn = form.querySelector('button[type="submit"]');
 
             form.addEventListener('submit', async (e) => {
@@ -1314,11 +1339,13 @@
 
                     form.reset();
 
-                    // Redirect back to our own site after a short delay
-                    setTimeout(() => {
-                        const target = window.location.origin + '/#thank-you';
-                        window.location.href = target;
-                    }, 1800);
+                    // Show thank you message
+                    if (thanks) {
+                        thanks.classList.remove('hidden');
+                        setTimeout(() => {
+                            thanks.classList.add('hidden');
+                        }, 5000);
+                    }
                 } catch (err) {
                     // Fallback: reveal a basic message and keep user on site
                     if (thanks) {
@@ -1341,9 +1368,9 @@
                 button.addEventListener('click', () => {
                     document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
                 });
-            } else if (button.textContent.includes('Schedule Demo')) {
+            } else if (button.textContent.includes('Book Consultation')) {
                 button.addEventListener('click', () => {
-                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
                 });
             }
         });
@@ -1406,6 +1433,186 @@
                 this.style.transform = 'scale(1) rotate(0deg)';
             });
         });
+
+        // Services Carousel Functionality
+        const servicesCarousel = {
+            container: document.querySelector('.services-carousel-container'),
+            slides: document.querySelectorAll('.services-carousel-slide'),
+            dots: document.querySelectorAll('.services-carousel-dot'),
+            prevBtn: document.querySelector('.services-carousel-prev'),
+            nextBtn: document.querySelector('.services-carousel-next'),
+            currentSlide: 0,
+            totalSlides: 5,
+            slidesToShow: 2, // Show 2 slides at once
+
+            init() {
+                if (!this.container) return;
+                
+                this.prevBtn?.addEventListener('click', () => this.prevSlide());
+                this.nextBtn?.addEventListener('click', () => this.nextSlide());
+                
+                // Add dot navigation
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Add touch/swipe support for mobile
+                let startX = 0;
+                let endX = 0;
+
+                this.container.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                });
+
+                this.container.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    if (startX - endX > 50) {
+                        this.nextSlide(); // Swipe left
+                    } else if (endX - startX > 50) {
+                        this.prevSlide(); // Swipe right
+                    }
+                });
+
+                this.updateCarousel();
+            },
+
+            nextSlide() {
+                this.currentSlide = Math.min(this.currentSlide + 1, this.totalSlides - this.slidesToShow);
+                this.updateCarousel();
+            },
+
+            prevSlide() {
+                this.currentSlide = Math.max(this.currentSlide - 1, 0);
+                this.updateCarousel();
+            },
+
+            goToSlide(index) {
+                this.currentSlide = Math.min(index, this.totalSlides - this.slidesToShow);
+                this.updateCarousel();
+            },
+
+            updateCarousel() {
+                // Calculate translateX based on slide width (50% for each slide since we show 2)
+                const translateX = -this.currentSlide * 50;
+                this.container.style.transform = `translateX(${translateX}%)`;
+                
+                // Update dots
+                this.dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentSlide);
+                    dot.classList.toggle('bg-blue-500', index === this.currentSlide);
+                    dot.classList.toggle('bg-slate-300', index !== this.currentSlide);
+                });
+            }
+        };
+
+        // Initialize services carousel
+        servicesCarousel.init();
+
+        // Testimonials Carousel Functionality
+        const testimonialsCarousel = {
+            container: document.querySelector('.testimonials-carousel-container'),
+            slides: document.querySelectorAll('.testimonials-carousel-slide'),
+            dots: document.querySelectorAll('.testimonials-carousel-dot'),
+            prevBtn: document.querySelector('.testimonials-carousel-prev'),
+            nextBtn: document.querySelector('.testimonials-carousel-next'),
+            currentSlide: 0,
+            totalSlides: 3,
+
+            init() {
+                if (!this.container) return;
+                
+                this.prevBtn?.addEventListener('click', () => this.prevSlide());
+                this.nextBtn?.addEventListener('click', () => this.nextSlide());
+                
+                // Add dot navigation
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Add touch/swipe support for mobile
+                let startX = 0;
+                let endX = 0;
+
+                this.container.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                });
+
+                this.container.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    if (startX - endX > 50) {
+                        this.nextSlide(); // Swipe left
+                    } else if (endX - startX > 50) {
+                        this.prevSlide(); // Swipe right
+                    }
+                });
+
+                this.updateCarousel();
+            },
+
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                this.updateCarousel();
+            },
+
+            prevSlide() {
+                this.currentSlide = this.currentSlide === 0 ? this.totalSlides - 1 : this.currentSlide - 1;
+                this.updateCarousel();
+            },
+
+            goToSlide(index) {
+                this.currentSlide = index;
+                this.updateCarousel();
+            },
+
+            updateCarousel() {
+                // Calculate translateX based on slide width (100% for each slide)
+                const translateX = -this.currentSlide * 100;
+                this.container.style.transform = `translateX(${translateX}%)`;
+                
+                // Update dots
+                this.dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentSlide);
+                    dot.classList.toggle('bg-blue-500', index === this.currentSlide);
+                    dot.classList.toggle('bg-slate-300', index !== this.currentSlide);
+                });
+            }
+        };
+        testimonialsCarousel.init();
+
+        // Handle Explore Details button clicks
+        document.querySelectorAll('.explore-details-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const service = this.getAttribute('data-service');
+                
+                // Scroll to the contact section
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    contactSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    setTimeout(() => {
+                        const projectTypeSelect = document.querySelector('#contact-form-secondary select[name="project_type"]');
+                        if (projectTypeSelect) {
+                            // Map service names to select options
+                            const serviceMap = {
+                                'Hospitals': 'Hospitals',
+                                'IVF Clinic Excellence': 'ivf',
+                                'Operations & Admin': 'operations',
+                                'Growth Strategy': 'growth',
+                                'Digital Transformation': 'digital'
+                            };
+                            
+                            if (serviceMap[service]) {
+                                projectTypeSelect.value = serviceMap[service];
+                            }
+                        }
+                    }, 500);
+                }
+            });
+        });
     </script>
+    </div> <!-- End of main-container -->
     </body>
 </html>
