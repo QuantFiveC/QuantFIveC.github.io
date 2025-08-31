@@ -89,30 +89,21 @@
         :focus-visible { outline: 3px solid #3b82f6; outline-offset: 2px; }
         .max-readable { max-width: 65ch; }
         
-        /* Default zoom level - equivalent to cmd+- (zoomed out) */
+        /* Mobile-first responsive design - remove scaling issues */
         .main-container {
-            transform: scale(0.85);
-            transform-origin: 0 0;
-            width: 117.65%; /* Compensate for scale to prevent horizontal scroll */
-            height: 117.65%;
+            width: 100%;
+            height: auto;
+            overflow-x: hidden;
         }
         
-        /* Ensure proper scaling on different devices */
+        /* Ensure proper mobile layout */
         @media (max-width: 768px) {
             .main-container {
-                transform: scale(0.9);
-                width: 111.11%;
-                height: 111.11%;
+                width: 100%;
+                height: auto;
             }
         }
         
-        @media (max-width: 480px) {
-            .main-container {
-                transform: scale(0.95);
-                width: 105.26%;
-                height: 105.26%;
-            }
-        }
         @media (prefers-reduced-motion: reduce) {
             * { animation: none !important; transition: none !important; }
         }
@@ -268,6 +259,92 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(148, 163, 184, 0.2);
         }
+
+        /* Transparent header styling */
+        .transparent-header {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px) !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .transparent-header .text-slate-800 {
+            color: black !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .transparent-header .text-slate-600 {
+            color: black !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .transparent-header .text-slate-600:hover {
+            color: #3b82f6 !important;
+        }
+
+        .transparent-header .text-blue-400 {
+            color: #1e40af !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Enhanced spacing for header */
+        .transparent-header .max-w-7xl {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        /* Ensure proper spacing between header and hero content */
+        #home {
+            padding-top: 4rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            #home {
+                padding-top: 3rem;
+                margin-top: 0.5rem;
+            }
+        }
+
+        /* Ensure header doesn't overlap content */
+        nav {
+            z-index: 1000;
+        }
+
+        /* Better spacing for hero content */
+        .hero-content {
+            margin-top: 4rem;
+            padding-top: 2rem;
+        }
+
+        /* Ensure proper header height */
+        .transparent-header {
+            min-height: 6rem;
+        }
+
+        /* Better mobile spacing */
+        @media (max-width: 768px) {
+            .hero-content {
+                margin-top: 2rem;
+                padding-top: 1rem;
+            }
+            
+            .transparent-header {
+                min-height: 5rem;
+            }
+        }
+
+        /* Adjust floating elements positioning */
+        .floating-card {
+            z-index: 1;
+        }
+
+        /* Mobile menu styling for transparent header */
+        .mobile-nav {
+            background: rgba(0, 0, 0, 0.9) !important;
+            backdrop-filter: blur(20px) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
         
         .service-icon {
             transition: all 0.3s ease;
@@ -277,23 +354,34 @@
             transform: scale(1.1) rotate(5deg);
         }
 
-        /* Services Carousel Styles */
+        /* Fixed Services Carousel Styles */
         .services-carousel-container {
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.4s ease-out;
             display: flex;
-            gap: 1rem;
+            gap: 0;
             cursor: grab;
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             overflow: hidden;
+            touch-action: pan-y pinch-zoom;
+            width: 500%; /* 5 slides * 100% width */
         }
 
         .services-carousel-slide {
             transition: all 0.3s ease;
-            min-width: calc(50% - 0.5rem); /* Show 2 slides at once with gap */
+            min-width: 20%; /* 100% / 5 slides = 20% */
             flex-shrink: 0;
+            padding: 0 1rem;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Ensure carousel container is properly constrained */
+        .services-carousel {
+            overflow: hidden;
+            width: 100%;
         }
 
         .services-carousel-dot {
@@ -306,6 +394,20 @@
         }
 
         .services-carousel-dot.active {
+            transform: scale(1.3);
+        }
+
+        /* Navigation dots styling */
+        .carousel-dot {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .carousel-dot:hover {
+            transform: scale(1.2);
+        }
+
+        .carousel-dot.active {
             transform: scale(1.3);
         }
 
@@ -381,7 +483,7 @@
             overflow: hidden;
         }
         
-        /* Calendar Section Styling */
+        /* Enhanced Calendar Section Styling for Mobile */
         .calendar-container {
             background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
             border: 1px solid rgba(59, 130, 246, 0.1);
@@ -392,10 +494,29 @@
             overflow: hidden;
         }
         
-        /* Cal.com embed customization */
+        /* Cal.com embed customization for mobile */
         .cal-embed-container iframe {
             border-radius: 1rem;
             border: none;
+            width: 100%;
+            height: 600px; /* Reduced height for mobile */
+        }
+        
+        @media (max-width: 768px) {
+            .cal-embed-container iframe {
+                height: 500px; /* Even smaller on mobile */
+            }
+            
+            /* Optimize calendar layout for mobile */
+            .calendar-container {
+                margin: 0 -1rem;
+                border-radius: 0;
+            }
+            
+            .cal-embed-container {
+                border-radius: 0;
+                padding: 0.5rem;
+            }
         }
         
         .cta-button::before {
@@ -411,6 +532,172 @@
         
         .cta-button:hover::before {
             left: 100%;
+        }
+
+        /* Mobile-optimized stats layout */
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 1rem !important;
+            }
+            
+            .stats-grid .text-center {
+                padding: 0.5rem;
+            }
+            
+            .stats-grid .w-20 {
+                width: 3rem !important;
+                height: 3rem !important;
+            }
+            
+            .stats-grid .text-2xl {
+                font-size: 1.25rem !important;
+            }
+            
+            .stats-grid .text-slate-500 {
+                font-size: 0.75rem !important;
+            }
+        }
+
+        /* Enhanced mobile navigation */
+        @media (max-width: 768px) {
+            .mobile-nav {
+                background: rgba(248, 250, 252, 0.98);
+                backdrop-filter: blur(20px);
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            .hero-buttons button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Improved carousel touch interactions */
+        .carousel-touch-active {
+            cursor: grabbing !important;
+            user-select: none !important;
+        }
+
+        .carousel-touch-active * {
+            pointer-events: none;
+        }
+
+        /* Smooth carousel transitions */
+        .carousel-transition {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Mobile-first responsive text sizing */
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2.5rem !important;
+                line-height: 1.1 !important;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem !important;
+                line-height: 1.5 !important;
+            }
+        }
+
+        /* Prevent horizontal overflow and ensure mobile boundaries */
+        body, html {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+
+        .main-container {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        /* Ensure all sections respect mobile boundaries */
+        section {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
+        /* Mobile-specific padding adjustments */
+        @media (max-width: 768px) {
+            .max-w-7xl {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .px-4 {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
+            .px-6 {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+            
+            .px-8 {
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+            }
+        }
+
+        /* Enhanced mobile touch interactions */
+        @media (max-width: 768px) {
+            .services-carousel-container {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+            
+            .services-carousel-slide {
+                touch-action: pan-y;
+            }
+        }
+
+        /* Additional mobile optimizations */
+        @media (max-width: 640px) {
+            /* Ensure text doesn't overflow on small screens */
+            .text-4xl, .text-5xl, .text-6xl {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            
+            /* Optimize button sizes for mobile */
+            .px-10 {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+            
+            .py-5 {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
+            
+            /* Ensure proper spacing on mobile */
+            .mb-20 {
+                margin-bottom: 3rem !important;
+            }
+            
+            .mb-16 {
+                margin-bottom: 2rem !important;
+            }
+        }
+
+        /* Prevent any horizontal scrolling */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Ensure smooth scrolling on mobile */
+        @media (max-width: 768px) {
+            html {
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+            }
         }
     </style>
 
@@ -460,20 +747,20 @@
     <div class="main-container">
 
     <!-- Navigation -->
-    <nav class="fixed w-full top-0 z-50 transition-all duration-300 glass-morphism" id="navbar" role="navigation" aria-label="Primary">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-3">
-                        <img src="logo.jpg" alt="Quant Five logo" class="h-12 w-auto" />
+    <nav class="fixed w-full top-0 z-50 transition-all duration-300 transparent-header" id="navbar" role="navigation" aria-label="Primary">
+        <div class="max-w-7xl mx-auto px-8 sm:px-12 lg:px-16">
+            <div class="flex justify-between items-center h-24">
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-4">
+                        <img src="logo.jpg" alt="Quant Five logo" class="h-14 w-auto" />
                         <div>
-                            <div class="text-2xl font-bold text-slate-800">Quant Five</div>
-                            <div class="text-xs text-blue-600 -mt-1">Revolutionising Hospitals</div>
+                            <div class="text-3xl font-bold text-slate-800">Quant Five</div>
+                            <div class="text-sm text-blue-400 -mt-1">Revolutionising Hospitals</div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="hidden lg:flex items-center space-x-8">
+                <div class="hidden lg:flex items-center space-x-10">
                     <a href="#home" class="text-slate-600 hover:text-blue-600 font-medium transition-colors relative group">
                         Home
                         <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
@@ -490,13 +777,13 @@
 
 
                     
-                    <a href="#contact" class="cta-button text-white px-6 py-3 rounded-full font-semibold transition-all hover:shadow-lg">
+                    <a href="#contact" class="cta-button text-white px-8 py-4 rounded-full font-semibold transition-all hover:shadow-lg">
                         Contact Us
                     </a>
                 </div>
                 
-                <button id="mobile-menu-btn" class="lg:hidden text-slate-700" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="mobile-menu-btn" class="lg:hidden text-black" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
@@ -504,14 +791,14 @@
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="lg:hidden hidden glass-morphism">
-            <div class="px-4 py-6 space-y-4">
-                <a href="#home" class="block text-slate-600 hover:text-blue-600 font-medium">Home</a>
-                <a href="#about" class="block text-slate-600 hover:text-blue-600 font-medium">About</a>
-                <a href="#services" class="block text-slate-600 hover:text-blue-600 font-medium">Services</a>
+        <div id="mobile-menu" class="lg:hidden hidden mobile-nav">
+            <div class="px-8 py-8 space-y-6">
+                <a href="#home" class="block text-white hover:text-blue-400 font-medium text-lg">Home</a>
+                <a href="#about" class="block text-white hover:text-blue-400 font-medium text-lg">About</a>
+                <a href="#services" class="block text-white hover:text-blue-400 font-medium text-lg">Services</a>
 
 
-                <a href="#contact" class="block cta-button text-white px-6 py-3 rounded-full font-semibold text-center">Contact Us</a>
+                <a href="#contact" class="block cta-button text-white px-8 py-4 rounded-full font-semibold text-center text-lg">Contact Us</a>
             </div>
          </div>
     </nav>
@@ -524,29 +811,25 @@
     <!-- Hero Section -->
     <section id="home" class="dark-gradient min-h-screen flex items-center relative overflow-hidden geometric-bg">
         <!-- Floating Elements -->
-        <div class="absolute top-20 left-10 w-32 h-32 border border-blue-500 border-opacity-30 rounded-full floating-card"></div>
-        <div class="absolute top-40 right-20 w-24 h-24 border border-green-500 border-opacity-30 rounded-lg floating-card" style="animation-delay: -2s;"></div>
-        <div class="absolute bottom-40 left-20 hexagon opacity-20 floating-card" style="animation-delay: -4s;"></div>
+        <div class="absolute top-32 left-10 w-32 h-32 border border-blue-500 border-opacity-30 rounded-full floating-card"></div>
+        <div class="absolute top-48 right-20 w-24 h-24 border border-green-500 border-opacity-30 rounded-lg floating-card" style="animation-delay: -2s;"></div>
+        <div class="absolute bottom-48 left-20 hexagon opacity-20 floating-card" style="animation-delay: -4s;"></div>
         
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <!-- Hero Content - Centered -->
-            <div class="text-center mb-20">
-                <div class="inline-flex items-center bg-slate-800 border border-blue-500 border-opacity-30 px-6 py-3 rounded-full text-sm font-medium mb-8 neon-glow text-white">
-                    <span class="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></span>
-                    Revolutionising Hospitals
-                </div>
+            <div class="hero-content text-center mb-32 pt-20">
                 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-8 leading-tight">
+                <h1 class="hero-title text-4xl sm:text-5xl lg:text-6xl font-black mb-8 leading-tight">
                     <span class="block">Revolutionising</span>
                     <span class="text-gradient typing-animation">Hospitals.</span>
                 </h1>
                 
-                <p class="text-base sm:text-lg lg:text-xl mb-12 text-slate-700 leading-relaxed max-w-4xl mx-auto max-readable">
+                <p class="hero-subtitle text-base sm:text-lg lg:text-xl mb-12 text-slate-700 leading-relaxed max-w-4xl mx-auto max-readable">
                     Revolutionising Hospitals : strategy, systems, and execution that modernise operations end-to-end.
                     <span class="text-blue-600 font-semibold">Smarter workflows. Stronger outcomes.</span>
                 </p>
                 
-                <div class="flex flex-col sm:flex-row gap-6 mb-16 justify-center">
+                <div class="hero-buttons flex flex-col sm:flex-row gap-6 mb-16 justify-center">
                     <button class="cta-button px-10 py-5 rounded-full font-bold text-lg transition-all hover:shadow-2xl group">
                         <span class="flex items-center justify-center">
                             Explore Innovation
@@ -555,15 +838,15 @@
                             </svg>
                         </span>
                     </button>
-                    <button class="border-gradient">
+                    <button class="border-gradient book-consultation-btn">
                         <div class="px-10 py-5 rounded-full font-bold text-lg text-white hover:bg-slate-700 transition-all">
                             Book Consultation
                         </div>
                     </button>
                 </div>
                 
-                <!-- Advanced Stats -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <!-- Advanced Stats - Horizontal on Mobile -->
+                <div class="stats-grid grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
                     <div class="text-center">
                         <div class="relative w-20 h-20 mx-auto mb-4">
                             <svg class="progress-ring w-20 h-20">
@@ -611,12 +894,8 @@
                     
                     <!-- Calendar Integration -->
                     <div class="p-6 bg-white">
-                        <div class="text-center mb-4">
-                            <p class="text-gray-600 text-sm mb-1">Calendar powered by Cal.com</p>
-                            <p class="text-xs text-gray-500">Select your preferred date and time below</p>
-                        </div>
                         
-                        <!-- Wide Cal.com Calendar Embed -->
+                        <!-- Mobile-optimized Cal.com Calendar Embed -->
                         <div class="cal-embed-container bg-gray-50 rounded-xl p-4" style="min-height: 500px;">
                             <!-- Cal inline embed code begins -->
                             <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-quickchat"></div>
@@ -631,6 +910,15 @@
                               });
 
                               Cal.ns.quickchat("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+                              
+                              // Mobile optimization for Cal.com
+                              if (window.innerWidth <= 768) {
+                                  // Reduce calendar height on mobile
+                                  const calContainer = document.getElementById('my-cal-inline-quickchat');
+                                  if (calContainer) {
+                                      calContainer.style.height = '400px';
+                                  }
+                              }
                               </script>
                               <!-- Cal inline embed code ends -->
                         </div>
@@ -1045,7 +1333,20 @@
                     
                     <!-- Swipe Hint -->
                     <div class="text-center mt-8">
-                        <p class="text-slate-500 text-sm">Swipe or drag to explore more services</p>
+                        
+                        <!-- Carousel Navigation Dots -->
+                        <div class="flex justify-center space-x-2 mt-4">
+                            <div class="w-3 h-3 rounded-full bg-blue-500 carousel-dot active" data-slide="0"></div>
+                            <div class="w-3 h-3 rounded-full bg-gray-300 carousel-dot" data-slide="1"></div>
+                            <div class="w-3 h-3 rounded-full bg-gray-300 carousel-dot" data-slide="2"></div>
+                            <div class="w-3 h-3 rounded-full bg-gray-300 carousel-dot" data-slide="3"></div>
+                            <div class="w-3 h-3 rounded-full bg-gray-300 carousel-dot" data-slide="4"></div>
+                        </div>
+                        
+                        <!-- Slide Counter -->
+                        <p class="text-slate-400 text-xs mt-2">
+                            <span id="current-slide">1</span> of 5
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1244,8 +1545,8 @@
                         <a href="tel:+918123041520" class="text-white hover:text-blue-400 transition-colors" aria-label="Call us">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                         </a>
-                        <a href="https://cal.com/quant-five/quickchat" class="text-white hover:text-blue-400 transition-colors" aria-label="Book consultation">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+                        <a href="https://www.instagram.com/quantfiveconsultancy/" target="_blank" rel="noopener" class="text-white hover:text-blue-400 transition-colors" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
                         <a href="https://www.linkedin.com/company/quant-five/about/" target="_blank" rel="noopener" aria-label="LinkedIn" class="text-white hover:text-blue-400 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 6.5A2.44 2.44 0 1 1 6.94 1.6a2.44 2.44 0 0 1 0 4.9ZM2.71 8.16h4.47v13.97H2.71zM13.33 8.06c-2.38 0-3.86 1.3-4.49 2.49h-.06V8.16H4.33c.06 1.2 0 13.97 0 13.97h4.45v-7.8c0-.42.03-.84.15-1.14.33-.84 1.08-1.71 2.34-1.71 1.65 0 2.31 1.29 2.31 3.18v7.47h4.46v-8.01c0-4.29-2.29-6.29-5.34-6.29Z"/></svg>
@@ -1269,14 +1570,8 @@
             </div>
             
             <div class="border-t border-slate-700 pt-8">
-                <div class="flex flex-col md:flex-row justify-between items-center text-gray-400">
+                <div class="flex justify-center items-center text-gray-400">
                     <p class="text-lg">&copy; 2025 Quant Five Consultancies. All rights reserved.</p>
-                    <div class="flex space-x-8 mt-4 md:mt-0">
-                        <a href="/sitemap.xml" class="hover:text-blue-400 transition-colors">Sitemap</a>
-                        <a href="#" class="hover:text-blue-400 transition-colors">Privacy Policy</a>
-                        <a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a>
-                        <a href="#" class="hover:text-blue-400 transition-colors">Cookie Policy</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1300,15 +1595,31 @@
             scrollProgress.style.transform = `scaleX(${scrollPercent})`;
         });
 
-        // Navbar scroll effect (lighter for readability)
+        // Navbar scroll effect (transparent to solid)
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
+                navbar.classList.remove('transparent-header');
+                navbar.classList.add('glass-morphism');
                 navbar.style.background = 'rgba(248, 250, 252, 0.95)';
                 navbar.style.boxShadow = '0 10px 25px rgba(0,0,0,0.08)';
+                
+                // Update text colors for solid header
+                const logoText = navbar.querySelector('.text-slate-800');
+                const navLinks = navbar.querySelectorAll('.text-slate-600');
+                if (logoText) logoText.style.color = '#1e293b';
+                navLinks.forEach(link => link.style.color = '#475569');
             } else {
-                navbar.style.background = 'rgba(248, 250, 252, 0.85)';
+                navbar.classList.remove('glass-morphism');
+                navbar.classList.add('transparent-header');
+                navbar.style.background = 'transparent';
                 navbar.style.boxShadow = 'none';
+                
+                // Update text colors for transparent header
+                const logoText = navbar.querySelector('.text-slate-800');
+                const navLinks = navbar.querySelectorAll('.text-slate-600');
+                if (logoText) logoText.style.color = 'black';
+                navLinks.forEach(link => link.style.color = 'black');
             }
         });
 
@@ -1407,9 +1718,16 @@
                 });
             } else if (button.textContent.includes('Book Consultation')) {
                 button.addEventListener('click', () => {
-                    document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
                 });
             }
+        });
+
+        // Book consultation button functionality
+        document.querySelectorAll('.book-consultation-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            });
         });
 
         // Progress ring animation
@@ -1471,13 +1789,12 @@
             });
         });
 
-        // Services Carousel Functionality - Swipe Only
+        // Fixed Services Carousel Functionality
         const servicesCarousel = {
             container: document.querySelector('.services-carousel-container'),
             slides: document.querySelectorAll('.services-carousel-slide'),
             currentSlide: 0,
             totalSlides: 5,
-            slidesToShow: 2, // Show 2 slides at once
             isDragging: false,
             startX: 0,
             currentX: 0,
@@ -1500,7 +1817,20 @@
                 // Prevent text selection during drag
                 this.container.addEventListener('selectstart', (e) => e.preventDefault());
                 
+                // Add click support for navigation dots
+                this.addDotNavigation();
+                
                 this.updateCarousel();
+            },
+
+            addDotNavigation() {
+                const dots = document.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.currentSlide = index;
+                        this.updateCarousel();
+                    });
+                });
             },
 
             handleDragStart(x) {
@@ -1516,10 +1846,11 @@
                 
                 this.currentX = x;
                 const diff = this.currentX - this.startX;
-                const newTranslateX = this.translateX + diff;
+                const slideWidth = 20; // Each slide is 20% of container width
+                const newTranslateX = this.translateX + (diff / this.container.offsetWidth) * slideWidth * 5;
                 
-                // Apply drag with resistance at boundaries
-                this.container.style.transform = `translateX(${newTranslateX}px)`;
+                // Apply drag
+                this.container.style.transform = `translateX(${newTranslateX}%)`;
             },
 
             handleDragEnd() {
@@ -1530,7 +1861,7 @@
                 this.container.style.userSelect = 'auto';
                 
                 const diff = this.currentX - this.startX;
-                const threshold = 100; // Minimum drag distance to trigger slide change
+                const threshold = this.container.offsetWidth * 0.15; // 15% threshold
                 
                 if (Math.abs(diff) > threshold) {
                     if (diff > 0) {
@@ -1545,24 +1876,107 @@
             },
 
             nextSlide() {
-                this.currentSlide = Math.min(this.currentSlide + 1, this.totalSlides - this.slidesToShow);
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
                 this.updateCarousel();
             },
 
             prevSlide() {
-                this.currentSlide = Math.max(this.currentSlide - 1, 0);
+                this.currentSlide = this.currentSlide === 0 ? this.totalSlides - 1 : this.currentSlide - 1;
                 this.updateCarousel();
             },
 
             updateCarousel() {
-                // Calculate translateX based on slide width (50% for each slide since we show 2)
-                this.translateX = -this.currentSlide * 50;
+                // Calculate translateX: each slide is 20% width, so multiply by 20
+                this.translateX = -this.currentSlide * 20;
                 this.container.style.transform = `translateX(${this.translateX}%)`;
+                
+                // Ensure all slides are visible and properly positioned
+                this.slides.forEach((slide, index) => {
+                    slide.style.opacity = '1';
+                    slide.style.visibility = 'visible';
+                    slide.style.transform = 'none';
+                });
+                
+                // Update navigation dots
+                this.updateDots();
+                
+                // Update slide counter
+                this.updateCounter();
+            },
+
+            updateDots() {
+                const dots = document.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, index) => {
+                    if (index === this.currentSlide) {
+                        dot.classList.add('active');
+                        dot.classList.remove('bg-gray-300');
+                        dot.classList.add('bg-blue-500');
+                    } else {
+                        dot.classList.remove('active');
+                        dot.classList.remove('bg-blue-500');
+                        dot.classList.add('bg-gray-300');
+                    }
+                });
+            },
+
+            updateCounter() {
+                const counter = document.getElementById('current-slide');
+                if (counter) {
+                    counter.textContent = this.currentSlide + 1;
+                }
             }
         };
 
         // Initialize services carousel
         servicesCarousel.init();
+
+        // Mobile-specific optimizations
+        function optimizeForMobile() {
+            if (window.innerWidth <= 768) {
+                // Optimize Cal.com calendar for mobile
+                const calContainer = document.getElementById('my-cal-inline-quickchat');
+                if (calContainer) {
+                    calContainer.style.height = '400px';
+                    calContainer.style.overflow = 'auto';
+                }
+                
+                // Ensure mobile navigation is properly styled
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) {
+                    mobileMenu.classList.add('mobile-nav');
+                }
+            }
+        }
+
+        // Run mobile optimizations on load and resize
+        window.addEventListener('load', optimizeForMobile);
+        window.addEventListener('resize', optimizeForMobile);
+
+        // Enhanced mobile experience
+        function enhanceMobileExperience() {
+            // Add touch feedback for buttons
+            const buttons = document.querySelectorAll('button, .cta-button, .border-gradient');
+            buttons.forEach(button => {
+                button.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                button.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Optimize carousel for mobile
+            if (window.innerWidth <= 768) {
+                const carouselContainer = document.querySelector('.services-carousel-container');
+                if (carouselContainer) {
+                    carouselContainer.style.cursor = 'grab';
+                }
+            }
+        }
+
+        // Initialize mobile enhancements
+        window.addEventListener('load', enhanceMobileExperience);
 
         // Testimonials Carousel Functionality
         const testimonialsCarousel = {
@@ -1667,6 +2081,21 @@
                     }, 500);
                 }
             });
+        });
+
+        // Also handle all buttons with "Explore Details" text
+        document.querySelectorAll('button').forEach(button => {
+            if (button.textContent.includes('Explore Details')) {
+                button.addEventListener('click', function() {
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                        contactSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            }
         });
     </script>
     </div> <!-- End of main-container -->
